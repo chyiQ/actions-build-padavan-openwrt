@@ -13,13 +13,21 @@ set -u
 # 1.修改一些默认参数 ./user/shared/defaults.h（需要不同设备不同拷贝到相应sh文件就好)
 USER_NAME="admin"                       # 用户名 admin
 USER_PASSWORD=$USER_NAME                # 用户密码 admin
-LAN_IP="192.168.3"                      # lan 地址 192.168.3.1 一定别写后面的 .1
-WIFI_PASSWORD="1234567890"              # wifi密码，切记密码最少8位 admin
+LAN_IP="192.168.8"                      # lan 地址 192.168.3.1 一定别写后面的 .1
+wlan_2g_ssid="shan"                              # 2G 无线名称
+wlan_5g_ssid="shan_5G"                           # 5G 无线名称
+WIFI_PASSWORD="qq88888888"              # wifi密码，切记密码最少8位 admin
 VERSION_TIME=$(date "+%Y%m%d")          # 自动时间更新时版本号: 20200320
 DEFAULT_PATH="./user/shared/defaults.h" # 默认文件配置目录
 
 echo '修改用户名'
 sed -i 's/#define\s*SYS_USER_ROOT\s*"admin"/#define  SYS_USER_ROOT     "'$USER_NAME'"/g' $DEFAULT_PATH
+
+echo "修改 2G 无线名称"
+sed -i 's/DEF_WLAN_2G_SSID	BOARD_PID "_%s"/DEF_WLAN_2G_SSID	"'$wlan_2g_ssid'"/g' $DEFAULT_PATH
+
+echo "修改 5G 无线名称"
+sed -i 's/DEF_WLAN_5G_SSID	BOARD_PID "_5G_%s"/DEF_WLAN_5G_SSID	"'$wlan_5g_ssid'"/g' $DEFAULT_PATH
 
 echo '修改密码'
 sed -i 's/#define\s*DEF_ROOT_PASSWORD\s*"admin"/#define  DEF_ROOT_PASSWORD     "'$USER_PASSWORD'"/g' $DEFAULT_PATH
